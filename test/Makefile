@@ -16,6 +16,7 @@
 SOURCES = $(wildcard *.c)
 TARGET = $(SOURCES:.c=)
 
+CC = clang
 CFLAGS = -Wall -Wextra -pipe -pthread -I../include
 LDFLAGS = -pthread -L../lib
 LIBS = -lmqueue
@@ -39,6 +40,9 @@ all: $(TARGET)
 
 test_%: test_%.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+
+test_fuzzer: test_fuzzer.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -fsanitize=fuzzer -o $@ $^ $(LIBS)
 
 .PHONY: check
 check:

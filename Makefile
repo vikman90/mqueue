@@ -25,6 +25,7 @@ SOURCES=$(wildcard src/*.c)
 OBJECTS=$(SOURCES:.c=.o)
 HEADERS=$(wildcard include/*.h)
 
+CC = clang
 CFLAGS = -Wall -Wextra -pipe -pthread -I./include
 LDFLAGS = -pthread
 
