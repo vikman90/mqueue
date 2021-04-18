@@ -1,0 +1,4 @@
+.vscode
+src/*.o
+test/test_*
+!test/test_*.c
