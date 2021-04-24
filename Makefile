@@ -21,35 +21,35 @@
 NAME_SHARED = libmqueue.so
 NAME_STATIC = libmqueue.a
 
-SOURCES=$(wildcard src/*.c)
-OBJECTS=$(SOURCES:.c=.o)
-HEADERS=$(wildcard include/*.h)
+SOURCES=$(wildcard src/*.cpp)
+OBJECTS=$(SOURCES:.cpp=.o)
+HEADERS=$(wildcard include/*.hpp)
 
-CC = clang
-CFLAGS = -Wall -Wextra -pipe -pthread -I./include
-LDFLAGS = -pthread
+CXX = clang++
+CXXFLAGS = -Wall -Wextra -pipe -I./include
+LDFLAGS =
 
 prefix = /usr/local
 includedir = $(prefix)/include
 libdir = $(prefix)/lib
 
 ifeq ($(MODE),debug)
-	CFLAGS += -g -O1
+	CXXFLAGS += -g -O1
 ifdef SANITIZE
-	CFLAGS += -fno-omit-frame-pointer -fsanitize=$(SANITIZE)
+	CXXFLAGS += -fno-omit-frame-pointer -fsanitize=$(SANITIZE)
 	LDFLAGS += -fsanitize=$(SANITIZE)
 endif
 else
-	CFLAGS += -O2 -fdata-sections -ffunction-sections
+	CXXFLAGS += -O2 -fdata-sections -ffunction-sections
 	LDFLAGS += -s -Wl,--gc-sections
 	DEFINES += -DNDEBUG
 endif
 
-CFLAGS += $(DEFINES)
+CXXFLAGS += $(DEFINES)
 
 ifeq ($(SHARED),yes)
 	TARGET = lib/$(NAME_SHARED)
-	CFLAGS += -fPIC
+	CXXFLAGS += -fPIC
 else
 	TARGET = lib/$(NAME_STATIC)
 endif
@@ -58,7 +58,7 @@ endif
 all: $(TARGET)
 
 lib/$(NAME_SHARED): $(OBJECTS)
-	$(CC) $(LDFLAGS) -shared -o $@ $^
+	$(CXX) $(LDFLAGS) -shared -o $@ $^
 
 lib/$(NAME_STATIC): $(OBJECTS)
 	$(AR) rc $@ $^

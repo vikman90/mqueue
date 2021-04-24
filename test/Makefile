@@ -13,36 +13,36 @@
 # Sanitizers:
 #   SANITIZE=<sanitizer>    Enable sanitizer.
 
-SOURCES = $(wildcard *.c)
-TARGET = $(SOURCES:.c=)
+SOURCES = $(wildcard *.cpp)
+TARGET = $(SOURCES:.cpp=)
 
-CC = clang
-CFLAGS = -Wall -Wextra -pipe -pthread -I../include
-LDFLAGS = -pthread -L../lib
-LIBS = -lmqueue
+CXX = clang++
+CXXFLAGS = -Wall -Wextra -pipe -I../include
+LDFLAGS = -L../lib
+LIBS = -lmqueue -lpthread
 
 ifeq ($(MODE),debug)
-	CFLAGS += -g -O1
+	CXXFLAGS += -g -O1
 ifdef SANITIZE
-	CFLAGS += -fno-omit-frame-pointer -fsanitize=$(SANITIZE)
+	CXXFLAGS += -fno-omit-frame-pointer -fsanitize=$(SANITIZE)
 	LDFLAGS += -fsanitize=$(SANITIZE)
 endif
 else
-	CFLAGS += -O2 -fdata-sections -ffunction-sections
+	CXXFLAGS += -O2 -fdata-sections -ffunction-sections
 	LDFLAGS += -s -Wl,--gc-sections
 	DEFINES += -DNDEBUG
 endif
 
-CFLAGS += $(DEFINES)
+CXXFLAGS += $(DEFINES)
 
 .PHONY: all
 all: $(TARGET)
 
-test_%: test_%.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+test_%: test_%.cpp
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 
-test_fuzzer: test_fuzzer.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -fsanitize=fuzzer -o $@ $^ $(LIBS)
+test_fuzzer: test_fuzzer.cpp
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -fsanitize=fuzzer -o $@ $^ $(LIBS)
 
 .PHONY: check
 check:
