@@ -11,9 +11,11 @@
 #define QUEUE_LENGTH 4096
 #define POP_TIMES    64
 
-using namespace std;
+using std::cout;
+using std::cerr;
+using std::endl;
 
-static MQueue queue(QUEUE_LENGTH, MQueue::Shrink);
+static MQueueList queue(QUEUE_LENGTH);
 
 void push(const uint8_t *data, size_t size) {
     char * string = NULL;

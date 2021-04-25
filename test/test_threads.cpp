@@ -46,7 +46,7 @@ int main(int argc, char ** argv) {
         max_length = 4096;
     }
 
-    MQueue queue(max_length, MQueue::Shrink);
+    MQueueList queue(max_length);
 
     thread reader(run_reader, &queue);
     thread writer(run_writer, &queue);
