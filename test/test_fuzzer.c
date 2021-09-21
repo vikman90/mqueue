@@ -5,15 +5,15 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "mqueue.h"
+#include "bqueue.h"
 
 #define QUEUE_LENGTH 4096
 #define POP_TIMES    64
 
-static mqueue_t * queue;
+static bqueue_t * queue;
 
 void init(size_t max_length) {
-    queue = mqueue_init(max_length, MQUEUE_SHRINK);
+    queue = bqueue_init(max_length, BQUEUE_SHRINK);
 
     if (queue == NULL) {
         fprintf(stderr, "FATAL: Cannot initialize queue.\n");
@@ -29,7 +29,7 @@ void push(const uint8_t *data, size_t size) {
         size_t len = strnlen((const char *)data, size);
 
         if (len >= string_size) {
-            string_size = len + 1;
+            string_size = len;
             free(string);
             string = (char *)malloc(string_size);
 
@@ -40,9 +40,7 @@ void push(const uint8_t *data, size_t size) {
         }
 
         memcpy(string, data, len);
-        string[len] = '\0';
-
-        mqueue_push(queue, string, 0);
+        bqueue_push(queue, string, len, 0);
 
         data += len + 1;
         size -= (size > len) ? len + 1 : len;
@@ -55,8 +53,9 @@ void pop(unsigned times) {
     char buffer[QUEUE_LENGTH];
 
     for (unsigned i = 0; i < times; i++) {
-        if (mqueue_pop(queue, buffer, QUEUE_LENGTH, 0) == 0) {
-            printf("%s\n", buffer);
+        size_t len = bqueue_pop(queue, buffer, QUEUE_LENGTH, 0);
+        if (len > 0) {
+            printf("%.*s", (int)len, buffer);
         } else {
             break;
         }

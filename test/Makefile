@@ -19,7 +19,7 @@ TARGET = $(SOURCES:.c=)
 CC = clang
 CFLAGS = -Wall -Wextra -pipe -pthread -I../include
 LDFLAGS = -pthread -L../lib
-LIBS = -lmqueue
+LIBS = -lbqueue
 
 ifeq ($(MODE),debug)
 	CFLAGS += -g -O1

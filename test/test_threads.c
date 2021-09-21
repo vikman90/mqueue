@@ -1,13 +1,13 @@
 // Vikman
 // April 11, 2021
 
-#include "mqueue.h"
+#include "bqueue.h"
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
 
 static void * run_reader(void * arg) {
-    mqueue_t * queue = (mqueue_t *)arg;
+    bqueue_t * queue = (bqueue_t *)arg;
     char buffer[4096];
     int r __attribute__((unused));
 
@@ -20,12 +20,11 @@ static void * run_reader(void * arg) {
             continue;
         }
 
-        *newline = '\0';
-        r = mqueue_push(queue, buffer, MQUEUE_WAIT);
+        r = bqueue_push(queue, buffer, strlen(buffer), BQUEUE_WAIT);
         assert(r == 0);
     }
 
-    r = mqueue_push(queue, "\\0EOF\\0", MQUEUE_WAIT);
+    r = bqueue_push(queue, "\\0EOF\\0", 7, BQUEUE_WAIT);
     assert(r == 0);
 
     (void)r;
@@ -33,15 +32,17 @@ static void * run_reader(void * arg) {
 }
 
 static void * run_writer(void * arg) {
-    mqueue_t * queue = (mqueue_t *)arg;
+    bqueue_t * queue = (bqueue_t *)arg;
     char buffer[4096];
+    size_t len;
 
-    while (mqueue_pop(queue, buffer, sizeof(buffer), MQUEUE_WAIT) == 0) {
-        if (strcmp(buffer, "\\0EOF\\0") == 0) {
+    while (len = bqueue_pop(queue, buffer, sizeof(buffer), BQUEUE_WAIT), len > 0) {
+        if (len >= 7 && strncmp(buffer + len - 7, "\\0EOF\\0", 7) == 0) {
+            printf("%.*s", (int)len - 7, buffer);
             break;
         }
 
-        printf("%s\n", buffer);
+        printf("%.*s", (int)len, buffer);
     }
 
     return NULL;
@@ -56,7 +57,7 @@ int main(int argc, char ** argv) {
         max_length = 4096;
     }
 
-    mqueue_t * queue = mqueue_init(max_length, MQUEUE_THREADS | MQUEUE_SHRINK);
+    bqueue_t * queue = bqueue_init(max_length, BQUEUE_SHRINK);
     assert(queue != NULL);
 
     pthread_t reader;
@@ -74,6 +75,6 @@ int main(int argc, char ** argv) {
     r = pthread_join(writer, NULL);
     assert(r == 0);
 
-    mqueue_destroy(queue);
+    bqueue_destroy(queue);
     return EXIT_SUCCESS;
 }

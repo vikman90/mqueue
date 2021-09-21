@@ -1,5 +1,5 @@
-# mqueue library
-In-memory circular buffer for strings. It supports multi-threading.
+# bqueue library
+In-memory circular buffer for binary strings. It supports multi-threading.
 
 ## Requirements
 

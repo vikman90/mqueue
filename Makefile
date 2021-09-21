@@ -18,8 +18,8 @@
 # Options:
 #    SHARED=yes             Build shared library instead of static library.
 
-NAME_SHARED = libmqueue.so
-NAME_STATIC = libmqueue.a
+NAME_SHARED = libbqueue.so
+NAME_STATIC = libbqueue.a
 
 SOURCES=$(wildcard src/*.c)
 OBJECTS=$(SOURCES:.c=.o)
@@ -72,7 +72,7 @@ install:
 
 .PHONY: uninstall
 uninstall:
-	$(RM) $(includedir)/mqueue.h
+	$(RM) $(includedir)/bqueue.h
 	$(RM) $(libdir)/$(NAME_SHARED) $(libdir)/$(NAME_STATIC)
 
 .PHONY: clean
