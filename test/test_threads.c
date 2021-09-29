@@ -33,10 +33,14 @@ static void * run_reader(void * arg) {
 
 static void * run_writer(void * arg) {
     bqueue_t * queue = (bqueue_t *)arg;
-    char buffer[4096];
+    char buffer[64];
     size_t len;
+    int r __attribute__((unused));
 
-    while (len = bqueue_pop(queue, buffer, sizeof(buffer), BQUEUE_WAIT), len > 0) {
+    while (len = bqueue_peek(queue, buffer, sizeof(buffer), BQUEUE_WAIT), len > 0) {
+        r = bqueue_drop(queue, len);
+        assert(r == 0);
+
         if (len >= 7 && strncmp(buffer + len - 7, "\\0EOF\\0", 7) == 0) {
             printf("%.*s", (int)len - 7, buffer);
             break;
