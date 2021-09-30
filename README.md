@@ -37,6 +37,10 @@ make MODE=debug SANITIZE=address
 sudo make uninstall
 ```
 
+## Reference documentation
+
+- [Reference documentation](https://vikman90.github.io/mqueue/index.html)
+
 ## Testing
 
 ### Threading test
