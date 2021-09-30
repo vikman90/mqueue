@@ -1,0 +1,5 @@
+<map id="_bqueue_shrink" name="_bqueue_shrink">
+<area shape="rect" id="node1" title="Reduce the queue capacity." alt="" coords="160,31,284,57"/>
+<area shape="rect" id="node2" href="$bqueue_8c.html#af9d90efa15ae124ca9bbe1300352c77f" title="Drop data from the queue." alt="" coords="5,5,112,32"/>
+<area shape="rect" id="node3" href="$bqueue_8c.html#affdbd94cee5efd31cdd18e50acc486d9" title="Get and remove data from the queue." alt="" coords="8,56,109,83"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="_bqueue_empty" name="_bqueue_empty">
+<area shape="rect" id="node1" title="Test whether the queue is empty." alt="" coords="332,56,459,83"/>
+<area shape="rect" id="node2" href="$bqueue_8c.html#ab49d41097131632845e79ef59c749ae1" title="Reduce the queue capacity." alt="" coords="160,31,284,57"/>
+<area shape="rect" id="node3" href="$bqueue_8c.html#af9d90efa15ae124ca9bbe1300352c77f" title="Drop data from the queue." alt="" coords="5,5,112,32"/>
+<area shape="rect" id="node4" href="$bqueue_8c.html#affdbd94cee5efd31cdd18e50acc486d9" title="Get and remove data from the queue." alt="" coords="8,56,109,83"/>
+<area shape="rect" id="node5" href="$bqueue_8c.html#a0c0af4ca3b5b6794c10a37f1e1a402bb" title="Get data from the queue." alt="" coords="167,132,277,159"/>
+</map>

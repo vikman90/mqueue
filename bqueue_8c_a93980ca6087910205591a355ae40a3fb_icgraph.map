@@ -1,0 +1,6 @@
+<map id="_bqueue_used" name="_bqueue_used">
+<area shape="rect" id="node1" title="Get the current queue size." alt="" coords="161,56,276,83"/>
+<area shape="rect" id="node2" href="$bqueue_8c.html#af9d90efa15ae124ca9bbe1300352c77f" title="Drop data from the queue." alt="" coords="6,5,113,32"/>
+<area shape="rect" id="node3" href="$bqueue_8c.html#affdbd94cee5efd31cdd18e50acc486d9" title="Get and remove data from the queue." alt="" coords="9,56,110,83"/>
+<area shape="rect" id="node4" href="$bqueue_8c.html#aa5869f78efef0b2148196a205a1d1bef" title="Push data into the queue." alt="" coords="5,107,113,133"/>
+</map>
